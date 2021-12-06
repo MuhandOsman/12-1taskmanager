@@ -14,12 +14,14 @@ const port = process.env.PORT
 
 server.listen(port, ()=> console.log(`server port ${port}`))
 
-const loggingMiddleware = require("./middleWare/loggingMiddleware")
+const loggingMiddleware = require("./middleWare/loggingMiddleware");
+/* const authCheck = require('./middleWare/authCheck'); */
 
 
 server.use(loggingMiddleware)
+/* server.use(authCheck) */
 
-
+server.use(express.json())
 
 
 server.use("/categories", categories);

@@ -1,6 +1,6 @@
 
 function loggingMiddleware (req, res ,next){
-    console.log("so you are in middle of nowhere");
+    console.log(req.method, req.url);
     next()
 }
 
