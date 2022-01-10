@@ -1,6 +1,8 @@
 require("dotenv").config();
 const db = require("./lib/database")
 
+const Product = require("./models/Product")
+
 const categories = require('./router/categories')
 const users = require('./router/users')
 const teams = require('./router/teams')
@@ -30,6 +32,16 @@ server.use("/categories", categories);
 server.use("/teams", teams);
 server.use("/tasks", tasks);
 server.use("/users", users);
+
+
+server.post("/product" ,async (req, res, next) => {
+    try {
+        const new_product = await Product.create_product("product_name", 555)
+        res.json(new_product)
+    } catch (error) {
+        next(error);
+    }
+})
 
 
 
