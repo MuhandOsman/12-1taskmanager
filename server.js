@@ -1,10 +1,12 @@
+require("dotenv").config();
+const db = require("./lib/database")
+
 const categories = require('./router/categories')
 const users = require('./router/users')
 const teams = require('./router/teams')
 const tasks = require('./router/tasks')
 const errorHandler = require("./middleWare/errorHandler")
 
-require("dotenv").config();
 
 const express = require("express");
 

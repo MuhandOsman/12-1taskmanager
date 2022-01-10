@@ -1,26 +1,32 @@
+const db = require("../lib/database")
 const express = require("express");
 const router = express.Router();
 
-const users = [
+/* const users = [
   { id: 1, catName: "first" },
   { id: 2, catName: "second" },
   { id: 3, catName: "third" },
-];
-const errorFunc = () => {
+]; */
+
+/* const errorFunc = () => {
     throw new Error("invented error")
-}
-router.get("/", (req, res, next) => {
+} */
+
+router.get("/", async (req, res, next) => {
   try {
-      errorFunc()  
-      res.send(users);
+      // errorFunc()  
+      /* res.send(users); */
+    const users = await db.collection("users").find().toArray();
+    res.json(users);
   } catch (error) {
     next(error);
   }
 });
 
-router.post("/", (req, res, next) => {
+router.post("/",async (req, res, next) => {
   try {
-    res.status(201).send(req.body);
+    const users = await db.collection("users").insertOne(req.body)
+    res.status(201).end("new user added");
   } catch (error) {
     next(error);
   }
