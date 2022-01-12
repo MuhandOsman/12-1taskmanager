@@ -36,12 +36,49 @@ server.use("/users", users);
 
 server.post("/product" ,async (req, res, next) => {
     try {
-        const new_product = await Product.create_product("product_name", 555)
-        res.json(new_product)
+        const new_product = await Product.create_product("another product_name", 52255)
+        res.status(201).json(new_product)
     } catch (error) {
         next(error);
     }
 })
+
+server.get("/product", async (req, res, next) =>{
+    try {
+        const products = await Product.find();
+        res.status(200).send(products)
+    } catch (error) {
+        next(error);
+    }
+
+})
+
+
+server.patch("/product/:productId", async (req, res, next) =>{
+    const updateProduct = await Product.updateProduct(req.params.productId, {
+        product_name: req.body.product_name,
+        product_price: req.body.product_price,
+    })
+})
+
+server.get("/products/:productId", async (req, res, next) => {
+    try {
+        const user = await Product.read_product(req.params.productId);
+        res.status(200).send(user);
+    } catch (error) {
+        next(error);
+    }    
+})
+
+
+server.delete("/product/:productId", async (req, res, next) => {
+    try {
+        await Product.removeProduct(req.params.productId)
+        res.status(204).end()
+    } catch (error) {
+        next(error);
+    }
+});
 
 
 

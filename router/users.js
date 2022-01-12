@@ -2,6 +2,9 @@ const db = require("../lib/database")
 const express = require("express");
 const router = express.Router();
 
+
+const User = require("../models/User")
+
 /* const users = [
   { id: 1, catName: "first" },
   { id: 2, catName: "second" },
@@ -12,25 +15,27 @@ const router = express.Router();
     throw new Error("invented error")
 } */
 
-router.get("/", async (req, res, next) => {
-  try {
-      // errorFunc()  
-      /* res.send(users); */
-    const users = await db.collection("users").find().toArray();
-    res.json(users);
-  } catch (error) {
-    next(error);
-  }
-});
+// ----------------------------------------------------------Mongodb --------------------------------
 
-router.post("/",async (req, res, next) => {
-  try {
-    const users = await db.collection("users").insertOne(req.body)
-    res.status(201).end("new user added");
-  } catch (error) {
-    next(error);
-  }
-});
+// router.get("/", async (req, res, next) => {
+//   try {
+//       // errorFunc()  
+//       /* res.send(users); */
+//     const users = await db.collection("users").find().toArray();
+//     res.json(users);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+// router.post("/",async (req, res, next) => {
+//   try {
+//     const users = await db.collection("users").insertOne(req.body)
+//     res.status(201).end("new user added");
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 router.get("/:userId", (req, res, next) => {
   try {
@@ -63,5 +68,28 @@ router.delete("/:userId", (req, res, next) => {
     next(error);
   }
 });
+
+// --------------------------------------------------------mongoose ----------------------
+
+router.get("/", async (req, res, next) => {
+  try {
+    // errorFunc()  
+    /* res.send(users); */
+    const users = await User.readUser()
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/",async (req, res, next) => {
+  try {
+    const newUsers = await User.createUser(req.body)
+    res.status(201).send(newUsers);
+  } catch (error) {
+    next(error);
+  }
+});
+    
 
 module.exports = router;

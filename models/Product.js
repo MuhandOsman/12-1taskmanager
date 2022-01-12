@@ -22,4 +22,27 @@ async function create_product (product_name,product_price ) {
     return await new_product.save()
 }
 
-module.exports = {create_product};
+async function read_product (productId) {
+    const product = await Product
+    .findById(productId)
+    .select(["_id", "product_name","product_price"]) // or in find({},["_id", "product_name","product_price"]) to exclude some property.can use ({}, "... ::: ---")or find({},{_id:0 ,product_price :0})
+
+    return product ;
+}
+
+async function updateProduct (productId,{product_price , product_name} ) {
+   return await Product.findByIdAndUpdate(productId , {
+        product_price ,
+         product_name,
+    })
+}
+
+async function removeProduct (productId) {
+  return  await Product.findByIdAndDelete(productId)
+}
+
+async function find (){
+    return await Product.find()
+}
+
+module.exports = {create_product ,read_product, updateProduct,removeProduct, find};
