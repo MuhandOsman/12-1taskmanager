@@ -1,11 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const sanitizeHtml = require('sanitize-html'); 
-const tasks = [
-    {id : 1, taskName: "first"},
-    {id : 2, taskName: "second"},
-    {id : 3, taskName: "third"}
-]
 
 router.get("/", (req, res, next) => {
    
@@ -21,7 +16,6 @@ router.post("/", (req, res,next) => {
     try {
         if(!req.body.description ) return res.status(400).json("missing description!!")
         if(!req.body.dueDate ) return res.status(400).json("missing Date!")
-        if(!req.body.id ) return res.status(400).json("missing Date!")
         const sanitize = sanitizeHtml(
             req.body.description,{ allowedTags:[]}
         )

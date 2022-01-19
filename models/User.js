@@ -1,5 +1,18 @@
 const mongoose = require('mongoose');
 
+const addressSchema = mongoose.Schema({
+    city: {
+        type: String,
+    },
+    postalCode: {
+        type: String,
+    },
+    streetNr:{
+        type :Number
+    }
+})
+
+
 const schema = mongoose.Schema({
     userName:{
         type: String,
@@ -18,19 +31,22 @@ const schema = mongoose.Schema({
     password:{
         type: String,
         required: true,
-    }
+    },
+    address:addressSchema,
 });
+
 
 const User = mongoose.connection.model("User",schema);
 
 // Read 
 
-async function createUser({userName,email,age,password}) {
+async function createUser({userName,email,age,password,address}) {
     const newUser = new User ({
         userName,
         email,
         age,
         password,
+        address,
     })
     return await newUser.save()
 }
